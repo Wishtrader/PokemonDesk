@@ -11,7 +11,7 @@ concat('Hello ', 'World');
 interface IndexInterface {
   howIDoIt: string;
   simeArray:[string, string, number];
-  withData: [any];
+  withData?: IndexInterface[];
   name?: string;
 }
 
@@ -27,9 +27,7 @@ myHometask.name = 'NoName'
 
 interface MyArray<T> {
 	[n: number]: T;
-  reduce(fn: (el: T) => T): T[];
+  reduce<U>(fn: (acc: U, el: T) => U, init:U): U;
 }
 
   const tsArray: Array<number> = [1,2,3,4,5];
-
-	tsArray.reduce(): T;
