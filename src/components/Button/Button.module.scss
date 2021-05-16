@@ -1,0 +1,24 @@
+.root {
+  border: none;
+  background-color: #73D677; //FIXME: replace with a variable
+  box-shadow: inset 0px -9px 0px rgba(0, 0, 0, 0.18);//TODO: read about "inset"
+  border-radius: 11px;
+  height: 66px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px 9px;
+  font-family: Karla;
+  color: #212121;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 23px;
+  line-height: 27px;
+  cursor: pointer;
+  outline: 0;
+
+  &:active {
+    box-shadow: inset 0px -6px 0px rgba(0, 0, 0, 0.18);
+    padding-bottom: 6px;
+  }
+}
