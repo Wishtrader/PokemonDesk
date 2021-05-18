@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Heading: React.FC = (children) => {
-  return (
-    <div>
-      {{ children }}
-    </div>
-  );
+interface IHeading {
+    tag: 'p' | 'h6' | 'h5' | 'h4' | 'h3' | 'h2' | 'h1';
+}
+
+const Heading: React.FC<IHeading> = ({ tag = 'p', children }) => {
+    return React.createElement(tag, null, children);
 };
 
 export default Heading;

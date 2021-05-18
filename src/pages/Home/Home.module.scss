@@ -1,4 +1,5 @@
 @import "../../variables";
+@import "../../components/Heading/style.module";
 
 .root {
   min-height: 100vh;
@@ -7,5 +8,13 @@
 }
 
 .contentParallax {
+  width: 100%;
+}
+
+.contentWrap {
+  width: 100%;
+}
+
+.contentText {
   width: 100%;
 }
