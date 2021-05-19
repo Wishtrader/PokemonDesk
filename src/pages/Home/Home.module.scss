@@ -1,0 +1,20 @@
+@import "../../variables";
+@import "../../components/Heading/style.module";
+
+.root {
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, $third 0%, $primary 100%);
+}
+
+.contentParallax {
+  width: 100%;
+}
+
+.contentWrap {
+  width: 100%;
+}
+
+.contentText {
+  width: 100%;
+}
