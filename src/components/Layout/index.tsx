@@ -1,17 +1,18 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import cn from 'classnames';
 
 import s from './style.module.scss';
 
 interface IProps {
-  children: ReactNode;
-  className: any;
+    className: string | null;
 }
 
-const Layout = ({ children, className = null }: IProps) => (
-  <div className={cn(s.root, className)}>
-    { children }
-  </div>
-);
+const Layout: React.FC<IProps> = ({ children, className = null }) => {
+    return (
+      <div className={cn(s.root, className)}>
+        {children}
+      </div>
+    );
+};
 
 export default Layout;

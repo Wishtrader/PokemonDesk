@@ -12,11 +12,11 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
   },
-  // watch: true,
-  // watchOptions: {
-  //   ignored: /node_modules/,
-  //   poll: 1000
-  // },
+  watch: true,
+  watchOptions: {
+    ignored: /node_modules/,
+    poll: 1000
+  },
   module: {
     rules: [
       {
@@ -76,6 +76,7 @@ module.exports = {
     port: 3000,
     open: true,
     hot: true,
+    historyApiFallback: true,
   },
   devtool: 'source-map',
 };

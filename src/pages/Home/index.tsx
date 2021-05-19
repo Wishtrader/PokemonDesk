@@ -14,34 +14,19 @@ const HomePage = () => {
       <Header />
       <Layout className={s.contentWrap}>
         <div className={s.contentText}>
-          <Heading tag="h1"> Heading H1 </Heading>
-          <Heading tag="h3"> Heading H3</Heading>
-          <Heading tag="p"> Paragraph </Heading>
-        <h1>
-          <b>Find</b> all your favorite <b>Pokemon</b>
-        </h1>
-        <p>You can know the type of Pokemon, its strengths, disadvantages and abilities</p>
-        <Button
-          onClick={() => console.log('Click Button1!')}
-          >
-          See pokemons
-        </Button>
-        <Button
-          onClick={() => console.log('Click Button2!')}
-          color="yellow" size="wide"
-          >
-          See pokemons
-        </Button>
-        <Button
-          onClick={() => console.log('Click Button2!')}
-          color="green" size="small"
-          >
-          See pokemons
-        </Button>
-      </div>
-      <div className={s.contentParallax}>
-        <Parallax />
-      </div>
+          <Heading tag="h1">
+            <b>Find</b> all your favorite <b>Pokemon</b>
+          </Heading>
+          <Heading tag="p">You can know the type of Pokemon, its strengths, disadvantages and abilities</Heading>
+          <Button
+            onClick={() => console.log('Click Button1!')}
+            >
+            See pokemons
+          </Button>
+        </div>
+        <div className={s.contentParallax}>
+          <Parallax />
+        </div>
       </Layout>
     </div>
   );
