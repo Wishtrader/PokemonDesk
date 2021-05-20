@@ -1,8 +1,8 @@
 import cn from 'classnames';
 import React from 'react';
 import Heading from '../Heading';
-import ImageNotFound from './assets/ImageNotFound.pmg';
-import s from './style.module';
+import ImageNotFound from './assets/ImageNotFound.png';
+import s from './style.module.scss';
 
 interface IPokemonCard {
   name: string;
@@ -18,6 +18,7 @@ const PokemonCard: React.FC<IPokemonCard> = ({ name, attack, defense, types, img
       <div className={s.infoWrap}>
         <Heading
           level={4}
+          //   size='xs'
           className={s.titleName}>
           {name}
         </Heading>
