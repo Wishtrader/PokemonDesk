@@ -1,17 +1,14 @@
-import React, { ReactNode } from 'react';
 import cn from 'classnames';
-
+import React from 'react';
 import s from './style.module.scss';
 
-interface IProps {
-  children: ReactNode;
-  className: any;
-}
-
-const Layout = ({ children, className = null }: IProps) => (
-  <div className={cn(s.root, className)}>
-    { children }
-  </div>
-);
+const Layout: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  children,
+  className,
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  return <div className={cn(s.root, className)}>
+    {children}
+    </div>;
+};
 
 export default Layout;
