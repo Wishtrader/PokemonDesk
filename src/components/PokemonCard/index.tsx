@@ -18,7 +18,6 @@ const PokemonCard: React.FC<IPokemonCard> = ({ name, attack, defense, types, img
       <div className={s.infoWrap}>
         <Heading
           level={4}
-          //   size='xs'
           className={s.titleName}>
           {name}
         </Heading>

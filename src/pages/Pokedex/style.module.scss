@@ -3,14 +3,19 @@
 .root {
   position: relative;
   min-height: 100vh;
-  background: linear-gradient(180deg, $third 0%, $primary 100%);
+  padding: 33px 0;
 }
 
 .content {
-  flex-grow: 1;
-  margin: 33px 0px;
+  width: 100%;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  margin-right: -34px;
   padding-bottom: 2.5rem;
+}
+
+.flexVertical {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
