@@ -10,7 +10,6 @@ interface IProps extends React.HTMLAttributes<HTMLHeadingElement> {
 const Heading: React.FC<IProps> = ({ level = 'h1', children, ...props }: IProps) => {
     const Tag = `h${level}`.replace('hh', 'h') as keyof JSX.IntrinsicElements;
     return React.createElement(Tag, { ...props }, children);
-  // return <Tag props={{ ...props }}>{children}</Tag>;
 };
 
 export default Heading;
