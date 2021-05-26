@@ -3,6 +3,7 @@
 interface CssExports {
   'content': string;
   'flexVertical': string;
+  'pokemonInput': string;
   'root': string;
 }
 export const cssExports: CssExports;
