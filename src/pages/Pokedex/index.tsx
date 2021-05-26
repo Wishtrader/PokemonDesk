@@ -1,76 +1,75 @@
 /* eslint-disable camelcase */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
+import s from './style.module.scss';
 
 import PokemonCard from '../../components/PokemonCard';
 import Heading from '../../components/Heading';
+import Loader from '../../components/Loader';
+
 import useDebounce from '../../hooks/useDebounce';
-import usePokemons from '../../hooks/usePokemons';
-import s from './style.module.scss';
+import useData from '../../hooks/useData';
+import { IPokemons, PokemonRequest } from '../../interface/pokemons';
 import Layout from '../../components/Layout';
 
 interface IQuery {
-  limit: number;
   name?: string;
 }
 
-const PokedexPage = () => {
+const Pokedex = () => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [query, setQuery] = useState<IQuery>({
-    limit: 12,
-  });
+  const [query, setQuery] = useState<IQuery>({});
 
-  const debouncedValue = useDebounce(searchValue, 1000);
+  const debouncedValue = useDebounce(searchValue, 500);
 
-  const { isLoading, isError, data } = usePokemons('getPokemons', query, [searchValue]);
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('debouncedValue =>', debouncedValue);
-  }, [debouncedValue]);
+  const { isLoading, isError, data } = useData<IPokemons>('getPokemons', query, [debouncedValue]);
 
-  const handleSearchChange = (value: string) => {
-    setSearchValue(value);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
     setQuery((state: IQuery) => ({
       ...state,
-      name: value,
+      name: e.target.value,
     }));
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Something went wrong...</div>;
+  if (isError) return <div>Something wrong...</div>;
 
   return (
-    <div className={s.root}>
-      <Layout className={s.flexVertical}>
-        <Heading level="h3">
-          {data.total} <b>Pokemons</b> for you to choose your favorite
-        </Heading>
-        <input
-          className={s.pokemonInput}
-          placeholder="Choose pokemon"
-          type="text"
-          value={searchValue}
-          onChange={(e) => handleSearchChange(e.target.value)}
-        />
-        <ul className={s.content}>
-          {data.pokemons.map((pokemon: any, index: number) => {
-            const { id, name_clean, stats, types, img } = pokemon;
-            if (index > 8) return null;
-
-            return (
-              <PokemonCard
-                key={id}
-                name={name_clean}
-                attack={stats.attack}
-                defense={stats.defense}
-                types={types}
-                img={img}
-              />
-            );
-          })}
-        </ul>
-      </Layout>
-    </div>
+      <div className={s.root}>
+        <div className={s.wrapper}>
+          <Heading level="h3">
+            {!isLoading && data && data.total} <b>Pokemons</b> for you to choose your favorite
+          </Heading>
+          <input
+            className={s.pokemonInput}
+            placeholder="Choose pokemon"
+            type="text"
+            value={searchValue}
+            onChange={handleSearchChange}
+          />
+          <ul className={s.pokemonCards}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              data &&
+              data.pokemons.map((pokemon: PokemonRequest) => {
+                const { id, name_clean, stats, types, img } = pokemon;
+                return (
+                  <PokemonCard
+                    key={id}
+                    name={name_clean}
+                    attack={stats.attack}
+                    defense={stats.defense}
+                    types={types}
+                    img={img}
+                  />
+                );
+              })
+            )}
+          </ul>
+        </div>
+      </div>
   );
 };
 
-export default PokedexPage;
+export default Pokedex;
