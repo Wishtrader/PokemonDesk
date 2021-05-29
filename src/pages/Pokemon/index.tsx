@@ -1,10 +1,11 @@
 import React, { FC, useState, useEffect } from 'react';
+import { usePath } from 'hookrouter';
 
 import s from './style.module.scss';
 
 import { PokemonRequest } from '../../interface/pokemons';
-import Heading from '../../components/Heading';
-import Loader from '../../components/Loader';
+import Heading from '../../components/Heading/index';
+import Loader from '../../components/Loader/index';
 
 export interface IProps {
   id: string | number;
@@ -33,6 +34,11 @@ const pokemonsData = {
 };
 
 const Pokemon: FC<IProps> = ({ id }) => {
+  const path = usePath();
+
+  // eslint-disable-next-line no-console
+  console.log(path);
+
   const [pokemon, setPokemon] = useState<PokemonRequest | null>(null);
 
   useEffect(() => {
