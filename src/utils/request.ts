@@ -1,41 +1,16 @@
-/* eslint-disable camelcase */
+/* eslint-disable no-shadow */
 import Url from 'url';
+
 import getUrlWithParamsConfig from './getUrlWithParamsConfig';
+import config from '../config/index';
 
-export interface IStats {
-  hp: number;
-  attack: number;
-  defense: number;
-  'special-attack': number;
-  'special-defense': number;
-  speed: number;
-}
-export interface IPokemon {
-  name_clean: string;
-  abilities: string[];
-  stats: IStats;
-  types: string[];
-  img: string | null;
-  name: string;
-  base_experience: number;
-  height: number;
-  id: number;
-  is_default: boolean;
-  order: number;
-  weight: number;
-}
-export interface IPokemonsResponse {
-  count: number;
-  limit: number;
-  offset: number;
-  pokemons: IPokemon[];
-  total?: number;
-}
+type TEndpoint = keyof typeof config.client.endpoint;
 
-export const req = async (endpoint: string): Promise<IPokemonsResponse> => {
-  const params = `?offset=${Math.floor(Math.random() * 87)}&limit=12`;
-  const uri = Url.format(getUrlWithParamsConfig(endpoint));
-  return fetch(uri + params).then((response) => response.json());
-};
+async function req<T>(endpoint: TEndpoint, query: object): Promise<T> {
+  const uri = Url.format(getUrlWithParamsConfig(endpoint, query));
+  const result = await fetch(uri).then((response) => response.json());
+
+  return result;
+}
 
 export default req;

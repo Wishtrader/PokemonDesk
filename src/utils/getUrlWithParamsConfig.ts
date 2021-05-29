@@ -1,16 +1,17 @@
-import config from '../config';
+import config from '../config/index';
 
-interface IUrl {
-  pathname: string;
-  protocol: string;
-  host: string;
-}
+type TEndpoint = keyof typeof config.client.endpoint;
 
-const getUrlWithParamsConfig = (endpoint: string): IUrl => {
+const getUrlWithParamsConfig = (endpointConfig: TEndpoint, query: object) => {
   const url = {
+    // search: `limit=${query.limit}&name=${query.name}`,
     ...config.client.server,
-    ...config.client.endpoint[endpoint].uri,
+    ...config.client.endpoint[endpointConfig].uri,
+    query: {
+      ...query,
+    },
   };
+
   return url;
 };
 

@@ -1,64 +1,77 @@
-import React, { useEffect, useState } from 'react';
-import Heading from '../../components/Heading';
-import Layout from '../../components/Layout';
-import PokemonCard from '../../components/PokemonCard';
-import req, { IPokemonsResponse } from '../../utils/request';
+/* eslint-disable camelcase */
+import React, { useState } from 'react';
+import { A } from 'hookrouter';
+
 import s from './style.module.scss';
 
-const usePokemons = () => {
-  const [data, setData] = useState<IPokemonsResponse>();
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+import PokemonCard from '../../components/PokemonCard';
+import Heading from '../../components/Heading';
+import Loader from '../../components/Loader';
 
-  useEffect(() => {
-    req('getPokemons')
-      .then((result) => setData(result))
-      .catch(() => setIsError(true))
-      .finally(() => setIsLoading(false));
-  }, []);
+import useDebounce from '../../hooks/useDebounce';
+import useData from '../../hooks/useData';
+import { IPokemons, PokemonRequest } from '../../interface/pokemons';
 
-  return {
-    data,
-    isLoading,
-    isError,
-  };
-};
-
-export interface IPokedexPage {
-  id?: string | number;
+interface IQuery {
+  name?: string;
 }
 
-const PokedexPage: React.FC<IPokedexPage> = ({ id }: IPokedexPage) => {
-  const { data, isLoading, isError } = usePokemons();
+const Pokedex = () => {
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [query, setQuery] = useState<IQuery>({});
 
-  if (isLoading) {
-    return <Heading level="h3">Is Loading...</Heading>;
-  }
+  const debouncedValue = useDebounce(searchValue, 500);
 
-  if (isError) {
-    return <Heading level="h3">Something wrong!</Heading>;
-  }
+  const { isLoading, isError, data } = useData<IPokemons>('getPokemons', query, [debouncedValue]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    setQuery((state: IQuery) => ({
+      ...state,
+      name: e.target.value,
+    }));
+  };
+
+  if (isError) return <div>Something wrong...</div>;
 
   return (
-    <div className={s.root}>
-      <Layout className={s.flexVertical}>
-        <Heading level="h4">
-          {data?.total}<b> Pokemons</b> for you to choose your favorite
-        </Heading>
-        <div className={s.content}>
-          {data?.pokemons.map((pokemon) => (
-            <PokemonCard
-              key={pokemon.id}
-              name={pokemon.name_clean}
-              attack={pokemon.stats.attack}
-              defense={pokemon.stats.defense}
-              img={pokemon.img}
-              types={pokemon.types}
-            />
-          ))}
+      <div className={s.root}>
+        <div className={s.wrapper}>
+          <Heading level="h3">
+            {!isLoading && data && data.total} <b>Pokemons</b> for you to choose your favorite
+          </Heading>
+          <input
+            className={s.pokemonInput}
+            placeholder="Choose pokemon"
+            type="text"
+            value={searchValue}
+            onChange={handleSearchChange}
+          />
+          <ul className={s.pokemonCards}>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              data &&
+              data.pokemons.map((pokemon: PokemonRequest) => {
+                const { id, name_clean, stats, types, img } = pokemon;
+                return (
+                  <A className={s.polemonLink} key={id} href={`/pokemon/${id}`}>
+                    <PokemonCard
+                      key={id}
+                      name={name_clean}
+                      attack={stats.attack}
+                      defense={stats.defense}
+                      types={types}
+                      img={img}
+                    />
+                  </A>
+                );
+              })
+            )}
+          </ul>
         </div>
-      </Layout>
-    </div>
+      </div>
   );
 };
-export default PokedexPage;
+
+export default Pokedex;
