@@ -1,25 +1,23 @@
-import cn from 'classnames';
-import React from 'react';
-import Heading from '../Heading';
-import ImageNotFound from './assets/ImageNotFound.png';
+import React, { FC } from 'react';
+
+import Heading from '../Heading/index';
+
 import s from './style.module.scss';
 
-interface IPokemonCard {
+interface IProps {
   name: string;
   attack: number;
   defense: number;
-  types: string[];
-  img: string | null;
+  types: Array<string>;
+  img: string;
 }
 
-const PokemonCard: React.FC<IPokemonCard> = ({ name, attack, defense, types, img }: IPokemonCard) => {
+const PokemonCard: FC<IProps> = ({ name, attack, defense, types, img }) => {
   return (
-    <div className={s.root}>
+    <li className={s.root}>
       <div className={s.infoWrap}>
-        <Heading
-          level={4}
-          className={s.titleName}>
-          {name}
+        <Heading level="h4" className={s.titleName}>
+          {`${name[0].toUpperCase()}${name.slice(1)}`}
         </Heading>
         <div className={s.statWrap}>
           <div className={s.statItem}>
@@ -33,16 +31,16 @@ const PokemonCard: React.FC<IPokemonCard> = ({ name, attack, defense, types, img
         </div>
         <div className={s.labelWrap}>
           {types.map((type) => (
-            <span key={type} className={cn(s.label, s.colorWrap, s[type as keyof typeof s])}>
+            <span key={type} className={s.label}>
               {type}
             </span>
           ))}
         </div>
       </div>
-      <div className={cn(s.pictureWrap, s.colorWrap, s[types[0] as keyof typeof s])}>
-        {img ? <img src={img} alt={name} /> : <img src={ImageNotFound} className={s.notFound} alt={`No ${name}`} />}
+      <div className={s.pictureWrap}>
+        <img src={img} alt="Charmander" />
       </div>
-    </div>
+    </li>
   );
 };
 
