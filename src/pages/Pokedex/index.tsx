@@ -16,10 +16,9 @@ interface IQuery {
   name?: string;
 }
 
-const Pokedex = () => {
+const Pokedex: React.FC = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [query, setQuery] = useState<IQuery>({});
-
   const debouncedValue = useDebounce(searchValue, 500);
 
   const { isLoading, isError, data } = useData<IPokemons>('getPokemons', query, [debouncedValue]);
